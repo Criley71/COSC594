@@ -13,7 +13,6 @@ int main(int argc, char *argv[])
     perror("Error can not open file\n");
     return -1;
   }
-
   string line;
   string sequence = "";
   bool skip = true;
@@ -28,7 +27,8 @@ int main(int argc, char *argv[])
   }
   // cout << sequence;
   fin.close();
-
+  
+  //begin multinomial model calculations
   array<double, 256> nucleotides;
   nucleotides['A'] = 0;
   nucleotides['T'] = 0;
@@ -93,4 +93,11 @@ int main(int argc, char *argv[])
 
   }
   cout << prob << "\n"; //expected is -452.662
+  //end multinomial model 
+  //begin 3rd order markov model
+  int first = 0;
+  int second = 1;
+  int third = 2;
+  int curr = 3;
+
 }
