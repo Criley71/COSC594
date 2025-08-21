@@ -1,0 +1,25 @@
+I have read and agree to the terms of the COSC 494/594 Honor Code.
+
+Nucleotide Frequencies:
+A:  0.254299
+C:  0.234258
+G:  0.264319
+T:  0.247124
+
+Dinucleotide Frequencies:
+AA: 0.0761221
+AC: 0.0530505
+AG: 0.0563287
+AT: 0.0688027
+CA: 0.0663079
+CC: 0.0514835
+CG: 0.0641842
+CT: 0.0522876
+GA: 0.0671326
+GC: 0.0745345
+GG: 0.0655657
+GT: 0.057071
+TA: 0.0447413
+TC: 0.0551947
+TG: 0.0782252
+TT: 0.0689677
