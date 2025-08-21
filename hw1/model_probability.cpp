@@ -3,6 +3,7 @@
 #include <math.h>
 #include <array>
 #include <vector>
+#include <iomanip>
 using namespace std;
 
 int main(int argc, char *argv[])
@@ -208,7 +209,7 @@ int main(int argc, char *argv[])
   }
   //cout << markov_sequence.length() << "\n";
   //cout << mar_sum << "\n";
-  cout << "Neanderthal Third-Order Markov Model log-probability: "<< markov_prob << "\n";
+  cout << "Neanderthal Third-Order Markov Model log-probability: " << markov_prob << "\n";
 
 
 }
