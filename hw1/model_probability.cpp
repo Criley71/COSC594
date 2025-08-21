@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
       break;
     }
   }
-  cout << "Neanderthal Multinomial Model log-probability:        "<< prob << "\n"; // expected is -452.662
+  cout << "Neanderthal Multinomial Model log-probability:        " << prob << "\n"; // expected is -452.662
   // end multinomial model
   // begin 3rd order markov model
   int first = 0;
@@ -127,50 +127,57 @@ int main(int argc, char *argv[])
       break;
     }
   }
-//  cout << markov_sequence << "\n";
-  while(curr < markov_sequence.length()){
-    markov_array[markov_sequence[first] - 'A'][markov_sequence[second] - 'A'][markov_sequence[third] - 'A'][markov_sequence[curr]-'A'] += 1;
+  //  cout << markov_sequence << "\n";
+  while (curr < markov_sequence.length())
+  {
+    markov_array[markov_sequence[first] - 'A'][markov_sequence[second] - 'A'][markov_sequence[third] - 'A'][markov_sequence[curr] - 'A'] += 1;
     first = second;
     second = third;
     third = curr;
-    curr+=1;
+    curr += 1;
   }
-  
-  //int mar_sum = 0;
-  double markov_prob_array[4][4][4][4] = {0};
-  for(int i = 0; i < 4; i++){
-    for(int j = 0; j < 4; j++){
-      for(int k = 0; k < 4; k++){
-        for(int m = 0; m < 4; m++){
-          int order_sum = markov_array[i][j][k][0] + markov_array[i][j][k][1] + markov_array[i][j][k][2] + markov_array[i][j][k][3];
-          if( order_sum == 0)break;
-          //cout << "order_sum: " << order_sum << "\n";
-          //cout << "markov_array: " << markov_array[i][j][k][m] << "\n";
-          markov_prob_array[i][j][k][m] = markov_array[i][j][k][m] / order_sum;
-          //cout <<  "markov_prob_array: "<<markov_prob_array[i][j][k][m] << "\n";
 
-          //mar_sum += markov_array[i][j][k][m];
+  // int mar_sum = 0;
+  double markov_prob_array[4][4][4][4] = {0};
+  for (int i = 0; i < 4; i++)
+  {
+    for (int j = 0; j < 4; j++)
+    {
+      for (int k = 0; k < 4; k++)
+      {
+        for (int m = 0; m < 4; m++)
+        {
+          int order_sum = markov_array[i][j][k][0] + markov_array[i][j][k][1] + markov_array[i][j][k][2] + markov_array[i][j][k][3];
+          if (order_sum == 0)
+            break;
+          // cout << "order_sum: " << order_sum << "\n";
+          // cout << "markov_array: " << markov_array[i][j][k][m] << "\n";
+          markov_prob_array[i][j][k][m] = markov_array[i][j][k][m] / order_sum;
+          // cout <<  "markov_prob_array: "<<markov_prob_array[i][j][k][m] << "\n";
+
+          // mar_sum += markov_array[i][j][k][m];
         }
       }
     }
   }
   string markov_neander_seq = "";
-  for(int i = 0; i < neander_sequence.length(); i++){
+  for (int i = 0; i < neander_sequence.length(); i++)
+  {
     switch (neander_sequence[i])
     {
-      case 'A':
+    case 'A':
       markov_neander_seq += 'A';
       break;
-      case 'C':
+    case 'C':
       markov_neander_seq += 'B';
       break;
-      case 'G':
+    case 'G':
       markov_neander_seq += 'C';
       break;
-      case 'T':
+    case 'T':
       markov_neander_seq += 'D';
       break;
-      default:
+    default:
       markov_neander_seq += 'A';
       break;
     }
@@ -180,7 +187,8 @@ int main(int argc, char *argv[])
   second = 1;
   third = 2;
   curr = 3;
-  for(int i = 0; i < 3; i++){
+  for (int i = 0; i < 3; i++)
+  {
     switch (neander_sequence[i])
     {
     case 'A':
@@ -200,16 +208,15 @@ int main(int argc, char *argv[])
       break;
     }
   }
-  while(curr < markov_neander_seq.length()){
-    markov_prob += log(markov_prob_array[markov_neander_seq[first]-'A'][markov_neander_seq[second]-'A'][markov_neander_seq[third]-'A'][markov_neander_seq[curr]-'A']);
+  while (curr < markov_neander_seq.length())
+  {
+    markov_prob += log(markov_prob_array[markov_neander_seq[first] - 'A'][markov_neander_seq[second] - 'A'][markov_neander_seq[third] - 'A'][markov_neander_seq[curr] - 'A']);
     first = second;
     second = third;
     third = curr;
-    curr+=1;
+    curr += 1;
   }
-  //cout << markov_sequence.length() << "\n";
-  //cout << mar_sum << "\n";
+  // cout << markov_sequence.length() << "\n";
+  // cout << mar_sum << "\n";
   cout << "Neanderthal Third-Order Markov Model log-probability: " << markov_prob << "\n";
-
-
 }
