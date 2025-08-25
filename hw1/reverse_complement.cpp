@@ -24,7 +24,7 @@ int main() {
   bool skip = true;
   // reads the lambda.fasta line by line
   while (getline(fin, line)) {
-    if (skip) { // skips the header line
+    if (skip) {  // skips the header line
       skip = false;
       continue;
     }
@@ -51,9 +51,8 @@ int main() {
   // iterate through the original sequence backwards
   int count = 0;
   for (auto itr = sequence.rbegin(); itr != sequence.rend(); itr++) {
-    if (*itr == '\n') // skip over new line characters
-      continue;
-    if (count == 70) { // every 71 characters (starts at 0) make a new line
+    if (*itr == '\n') continue;  // skip over new line characters
+    if (count == 70) {  // every 71 characters (starts at 0) make a new line
       fout << "\n";
       count = 0;
     }
@@ -61,5 +60,6 @@ int main() {
     fout << complement[*itr];
     count++;
   }
+  fout << "\n";
   return 0;
 }
