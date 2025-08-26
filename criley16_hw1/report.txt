@@ -71,6 +71,6 @@ Comparing the probabilities of the nucleotides and dinucleotides between the
 human mitochondria sequence and the sequence generated using a third-order 
 Markov model trained on the human mitochondria sequence, the probabilities
 of the dinucleotides are very similar where the largest difference is about 
-a .0015 in AG (at least for what I generated, a new one is made when running markov_generator)
-All other dinucleotides had a probability difference less than that between the
-actual vs generated sequences.
+a .0015 in AG (at least for what I had generated when writing this, 
+a new one is made when running markov_generator) All other dinucleotides had 
+a probability difference less than that between the actual vs generated sequences.
