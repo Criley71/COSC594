@@ -1,5 +1,12 @@
 I have read and agree to the terms of the COSC 494/594 Honor Code.
-
+=================================================
+USAGE:
+1.extract tar file:
+  > tar -xvf criley16_hw1.tar
+2. move to directory
+  > cd criley16_hw1
+3. compile
+=================================================
 PROBABILITIES of lambda.fasta:
 
 4)

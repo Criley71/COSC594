@@ -1,5 +1,11 @@
+/*Connor Riley
+UTK COSC 594
+HW1 markov_generator.cpp
+Uses the human_mito.fasta to train a third-order markov
+model and then generates a 20000 nucleotide sequence 
+with these probabilities
+*/
 #include <math.h>
-
 #include <array>
 #include <fstream>
 #include <iomanip>
@@ -9,6 +15,7 @@ using namespace std;
 int main(int argc, char* argv[]) {
   // this is just copied from the model_probability.cpp as I am
   // just getting the probabilities for the 3rd order markov
+  // New Stuff begins around line 125
   srand(time(0));
   ifstream fin("human_mito.fasta");
   if (!fin.good()) {
@@ -113,6 +120,8 @@ int main(int argc, char* argv[]) {
   }
 
   // END THIRD ORDER MARKOV CALCULATIONS
+
+
   // BEGIN GENERATING SEQUENCE
   // first create/open markov_simulated.fasta
   int nuc_count = 0;
