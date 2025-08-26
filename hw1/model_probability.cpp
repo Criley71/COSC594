@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
   nucleotides['G'] = 0;
   nucleotides['N'] = 0;
   // loop through the sequence and tally each nucleotide
-  for (int i = 0; i < sequence.length(); i++) {
+  for (int i = 0; i < static_cast<int>(sequence.length()); i++) {
     nucleotides[sequence[i]] += 1;
   }
   // get the probabilities of each nucleotide by dividing by total amount of
@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
   // multinomial model is the sum of the log(probability_of_nucelotide)
   // for every nucleotide in the sequence.
   double prob = 0;
-  for (int i = 0; i < neander_sequence.length(); i++) {
+  for (int i = 0; i < static_cast<int>(neander_sequence.length()); i++) {
     switch (neander_sequence[i]) {
       case 'A':
         prob += log(a_prob);
@@ -114,7 +114,7 @@ int main(int argc, char *argv[]) {
   int curr = 3;
   double markov_array[4][4][4][4] = {0};
   string markov_sequence = "";
-  for (int i = 0; i < sequence.length(); i++) {
+  for (int i = 0; i < static_cast<int>(sequence.length()); i++) {
     // first switch statement used since CS102
     // i convert the sequence to where:
     // A->A, C->B, G->C, T->D
@@ -141,7 +141,7 @@ int main(int argc, char *argv[]) {
   //  cout << markov_sequence << "\n";
   // loop through the entire sequence and tally each set of 4
   // markov_sequence[0][1][2][3] = ACGT
-  while (curr < markov_sequence.length()) {
+  while (curr < static_cast<int>(markov_sequence.length())) {
     markov_array[markov_sequence[first] - 'A'][markov_sequence[second] - 'A'][markov_sequence[third] - 'A'][markov_sequence[curr] - 'A'] += 1;
     first = second;
     second = third;
@@ -168,7 +168,7 @@ int main(int argc, char *argv[]) {
   }
   // convert the sequence to ABCD again for indexing the array
   string markov_neander_seq = "";
-  for (int i = 0; i < neander_sequence.length(); i++) {
+  for (int i = 0; i < static_cast<int>(neander_sequence.length()); i++) {
     switch (neander_sequence[i]) {
       case 'A':
         markov_neander_seq += 'A';
@@ -214,7 +214,7 @@ int main(int argc, char *argv[]) {
     }
   }
   //begin sliding window on the neanderthal sequence
-  while (curr < markov_neander_seq.length()) {
+  while (curr < static_cast<int>(markov_neander_seq.length())) {
     markov_prob += log(markov_prob_array[markov_neander_seq[first] - 'A'][markov_neander_seq[second] - 'A'][markov_neander_seq[third] - 'A'][markov_neander_seq[curr] - 'A']);
     first = second;
     second = third;

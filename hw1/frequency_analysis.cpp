@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
   int left = 0;
   int right = 1;
   // counting
-  while (right < sequence.length()) {
+  while (right < static_cast<int>(sequence.length())) {
     string combine = "";
     combine += sequence[left];
     combine += sequence[right];

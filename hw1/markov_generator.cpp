@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
   nucleotides['G'] = 0;
   nucleotides['N'] = 0;
   // loop through the sequence and tally each nucleotide
-  for (int i = 0; i < sequence.length(); i++) {
+  for (int i = 0; i < static_cast<int>(sequence.length()); i++) {
     nucleotides[sequence[i]] += 1;
   }
   // get the probabilities of each nucleotide by dividing by total amount of
@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
   nucleotides['A'] += nucleotides['N'];  // convert any N's to A's
   int nuc_sum = nucleotides['A'] + nucleotides['T'] + nucleotides['C'] + nucleotides['G'];
   double a_prob = nucleotides['A'] / nuc_sum;
-  double t_prob = nucleotides['T'] / nuc_sum;
+  //double t_prob = nucleotides['T'] / nuc_sum; unused
   double c_prob = nucleotides['C'] / nuc_sum;
   double g_prob = nucleotides['G'] / nuc_sum;
   // cout << a_prob << "\n";
@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
   int curr = 3;
   double markov_array[4][4][4][4] = {0};
   string markov_sequence = "";
-  for (int i = 0; i < sequence.length(); i++) {
+  for (int i = 0; i < static_cast<int>(sequence.length()); i++) {
     // i convert the sequence to where:
     // A->A, C->B, G->C, T->D
     // this is because I index the matrix by subtracting 'A'
@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
   //  cout << markov_sequence << "\n";
   // loop through the entire sequence and tally each set of 4
   // markov_sequence[0][1][2][3] = ACGT
-  while (curr < markov_sequence.length()) {
+  while (curr < static_cast<int>(sequence.length())) {
     markov_array[markov_sequence[first] - 'A'][markov_sequence[second] - 'A'][markov_sequence[third] - 'A'][markov_sequence[curr] - 'A'] += 1;
     first = second;
     second = third;
@@ -133,12 +133,14 @@ int main(int argc, char* argv[]) {
   // else will be choose_t
   double r;
   string generated_seq = "";
-  //the generated seq string will be made of ABCD for
-  //array indexing purposes while the output to
-  //markov_simulated.fasta will be ACGT's
+  // the generated seq string will be made of ABCD for
+  // array indexing purposes while the output to
+  // markov_simulated.fasta will be ACGT's
   for (int i = 0; i < 3; i++) {
-    r = ((double)rand()) / RAND_MAX;
-    // cout << r << "\n";
+    r = ((double)rand()) / RAND_MAX;  
+    // is this actually the best way to get a random number in c++, I had to
+    // look it up and this is what GeeksForGeeks had and it seems a little much
+    //https://www.geeksforgeeks.org/cpp/generate-a-random-number-between-0-and-1/
     if (r < choose_a) {
       fout << "A";
       generated_seq += "A";
@@ -158,8 +160,8 @@ int main(int argc, char* argv[]) {
   second = 1;
   third = 2;
   // cout << markov_sequence;
-  //Sliding window that uses the previous 3 to then get the probabilities of each 
-  //nucleotide based on the 3 preceding nucleotides
+  // Sliding window that uses the previous 3 to then get the probabilities of each
+  // nucleotide based on the 3 preceding nucleotides
   while (nuc_count < 20000) {
     r = ((double)rand()) / RAND_MAX;
     choose_a = markov_prob_array[generated_seq[first] - 'A'][generated_seq[second] - 'A'][generated_seq[third] - 'A'][0];
@@ -182,7 +184,7 @@ int main(int argc, char* argv[]) {
     first = second;
     second = third;
     third += 1;
-    if (nuc_count % 70 == 0) fout << "\n"; //every 70 chars we newline
+    if (nuc_count % 70 == 0) fout << "\n";  // every 70 chars we newline
   }
-  fout << "\n";//fasta seems to have new line at end
+  fout << "\n";  // fasta seems to have new line at end
 }
