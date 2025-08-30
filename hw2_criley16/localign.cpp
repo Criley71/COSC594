@@ -1,33 +1,28 @@
-/*Connor Riley
-COSC 594 Fall 2025 HW2
-This implements a global alignment of 2 dna sequences
-using the needleman wunsch algorithm
-*/
+
 #include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <vector>
-using namespace std;
 
+using namespace std;
 int main(int argc, char* argv[]) {
-  // if files are passed theyu are used, otherwise default to
-  // human and drosophila sequences
-  string file1 = (argc == 3) ? argv[1] : "drosophila.fasta";
-  string file2 = (argc == 3) ? argv[2] : "human.fasta";
-  // open and error check files
+  string file1 = (argc == 3) ? argv[2] : "drosophila.fasta";
+  string file2 = (argc == 3) ? argv[1] : "human.fasta";
+
   ifstream fin1;
   fin1.open(file1);
   if (!fin1.good()) {
-    perror("Error opening drosophila.fasta\n");
+    cout << "Error opening " << file1 << "\n";
+    perror("");
     return -1;
   }
   ifstream fin2;
   fin2.open(file2);
   if (!fin2.good()) {
-    perror("Error opening second file\n");
+    cout << "Error opening " << file2 << "\n";
+    perror("");
     return -1;
   }
-  // read line by line, skipping the header
   string seq1 = "";
   string seq2 = "";
   string line;
@@ -49,12 +44,6 @@ int main(int argc, char* argv[]) {
   }
   fin1.close();
   fin2.close();
-
-  // seq1 = "GTCGACGCA";
-  // seq2 = "GATTACA";
-
-  // The matrix will be the size of seq1 + 1 by the size of seq 2 + 1
-  // initialize all values to zero
   int size_seq1 = seq1.size();
   int size_seq2 = seq2.size();
   vector<vector<int>> align_matrix;
@@ -67,40 +56,29 @@ int main(int argc, char* argv[]) {
   int match = 2;
   int mismatch_penalty = -1;
   int gap_penalty = -2;
-  for (int i = 0; i <= size_seq1; i++) {
-    align_matrix[i][0] = i * gap_penalty;
-  }
-  for (int i = 0; i <= size_seq2; i++) {
-    align_matrix[0][i] = i * gap_penalty;
-  }
-
-  // align_matrix[0].size() = size_seq1+1 (seq1 will be horizontal)
-  // align_matrix.size() = size_seq2+1 (seq2 will be vertical)
-
-  // loop through the matrix checking each cell for optimal scoring between
-  // missmatching, matching or having a gap.
   int diag_score;
   int horz_score;
   int vert_score;
+  pair<int, int> max_coord = pair<int, int>(0, 0);
   for (int i = 1; i <= size_seq1; i++) {
     for (int j = 1; j <= size_seq2; j++) {
       diag_score = align_matrix[i - 1][j - 1] + (seq1[i - 1] == seq2[j - 1] ? match : mismatch_penalty);
       horz_score = align_matrix[i][j - 1] + gap_penalty;
       vert_score = align_matrix[i - 1][j] + gap_penalty;
-      align_matrix[i][j] = max({diag_score, horz_score, vert_score});
+      align_matrix[i][j] = max({diag_score, horz_score, vert_score, 0});
+      if (align_matrix[i][j] > align_matrix[max_coord.first][max_coord.second]) {
+        max_coord = pair<int, int>(i, j);
+      }
     }
   }
-  // start bottom right and check if diag + match equals current cells value
-  // or if the left or top cell + gap equals the current cells value
-  // if so this is part of the optimal alignment
-  // if its a diag then no gap is added, just the 2 current values in the sequences
-  // if its up then seq 2 gets a gap
-  // if its left then seq 1 gets a gap
+  int max_score = align_matrix[max_coord.first][max_coord.second];
   string align_seq1 = "";
   string align_seq2 = "";
-  int i = size_seq1;
-  int j = size_seq2;
-  while (i > 0 || j > 0) {
+  int i = max_coord.first;
+  int j = max_coord.second;
+  int end_i = i;
+  int end_j = j;
+  while (align_matrix[i][j] != 0 && (i > 0 || j > 0)) {
     if (i > 0 && j > 0 && align_matrix[i][j] == (align_matrix[i - 1][j - 1] + match)) {
       align_seq1 = seq1[i] + align_seq1;
       align_seq2 = seq2[j] + align_seq2;
@@ -119,7 +97,6 @@ int main(int argc, char* argv[]) {
   align_seq1 = seq1[0] + align_seq1;
   align_seq2 = seq2[0] + align_seq2;
   int width = 100;
-  // loop through 100 characters at a time, to show alignment beyween the 2 sequences
   for (int i = 0; i < static_cast<int>(align_seq1.length()); i += width) {
     string seq1_substr = align_seq1.substr(i, width);
     string seq2_substr = align_seq2.substr(i, width);
@@ -140,6 +117,7 @@ int main(int argc, char* argv[]) {
     cout << "MATCH: " << match_string << "\n";
     cout << "Human: " << seq2_substr << "\n\n";
   }
-  // score is in the bottom right of the matrix
-  cout << "Alignment Score: " << align_matrix[size_seq1][size_seq2] << "\n";
+  cout << "\nMax Alignment Score: " << max_score << "\n";
+  cout << "Sequence starts at Coordinates (" << i << ", " << j <<") and ends at coordinates (" << end_i << ", " << end_j << ")\n";
+  cout << "The sequence is " << align_seq1.size() << " nucleotides long\n"; 
 }
