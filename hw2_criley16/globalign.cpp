@@ -100,24 +100,38 @@ int main(int argc, char* argv[]) {
   string align_seq2 = "";
   int i = size_seq1;
   int j = size_seq2;
+
   while (i > 0 || j > 0) {
-    if (i > 0 && j > 0 && align_matrix[i][j] == (align_matrix[i - 1][j - 1] + match)) {
-      align_seq1 = seq1[i] + align_seq1;
-      align_seq2 = seq2[j] + align_seq2;
-      i -= 1;
-      j -= 1;
-    } else if (i > 0 && align_matrix[i][j] == (align_matrix[i - 1][j] + gap_penalty)) {
-      align_seq1 = seq1[i] + align_seq1;
-      align_seq2 = "-" + align_seq2;
-      i -= 1;
-    } else {
-      align_seq1 = "-" + align_seq1;
-      align_seq2 = seq2[j] + align_seq2;
-      j -= 1;
+    if (i > 0 && j > 0) {
+      diag_score = align_matrix[i - 1][j - 1] + (seq1[i - 1] == seq2[j - 1] ? match : mismatch_penalty);
+      if (align_matrix[i][j] == diag_score) {
+        align_seq1 = seq1[i - 1] + align_seq1;
+        align_seq2 = seq2[j - 1] + align_seq2;
+        i -= 1;
+        j -= 1;
+        continue;
+      }
     }
+    if (i > 0) {
+      vert_score = align_matrix[i - 1][j] + gap_penalty;
+      if (align_matrix[i][j] == vert_score) {
+        align_seq1 = seq1[i - 1] + align_seq1;
+        align_seq2 = "-" + align_seq2;
+        i -= 1;
+        continue;
+      }
+    }
+    if (j > 0) {
+      horz_score = align_matrix[i][j - 1] + gap_penalty;
+      if (align_matrix[i][j] == horz_score) {
+        align_seq1 = "-" + align_seq1;
+        align_seq2 = seq2[j - 1] + align_seq2;
+        j -= 1;
+        continue;
+      }
+    }
+    break;
   }
-  align_seq1 = seq1[0] + align_seq1;
-  align_seq2 = seq2[0] + align_seq2;
   int width = 100;
   // loop through 100 characters at a time, to show alignment beyween the 2 sequences
   for (int i = 0; i < static_cast<int>(align_seq1.length()); i += width) {

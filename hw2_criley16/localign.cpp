@@ -78,24 +78,39 @@ int main(int argc, char* argv[]) {
   int j = max_coord.second;
   int end_i = i;
   int end_j = j;
-  while (align_matrix[i][j] != 0 && (i > 0 || j > 0)) {
-    if (i > 0 && j > 0 && align_matrix[i][j] == (align_matrix[i - 1][j - 1] + match)) {
-      align_seq1 = seq1[i] + align_seq1;
-      align_seq2 = seq2[j] + align_seq2;
-      i -= 1;
-      j -= 1;
-    } else if (i > 0 && align_matrix[i][j] == (align_matrix[i - 1][j] + gap_penalty)) {
-      align_seq1 = seq1[i] + align_seq1;
-      align_seq2 = "-" + align_seq2;
-      i -= 1;
-    } else {
-      align_seq1 = "-" + align_seq1;
-      align_seq2 = seq2[j] + align_seq2;
-      j -= 1;
+  while (align_matrix[i][j] != 0) {
+    if (i > 0 && j > 0) {
+      diag_score = align_matrix[i - 1][j - 1] + (seq1[i - 1] == seq2[j - 1] ? match : mismatch_penalty);
+      if (align_matrix[i][j] == diag_score) {
+        align_seq1 = seq1[i - 1] + align_seq1;
+        align_seq2 = seq2[j - 1] + align_seq2;
+        i -= 1;
+        j -= 1;
+        continue;
+      }
     }
+    if (i > 0) {
+      vert_score = align_matrix[i - 1][j] + gap_penalty;
+      if (align_matrix[i][j] == vert_score) {
+        align_seq1 = seq1[i - 1] + align_seq1;
+        align_seq2 = "-" + align_seq2;
+        i -= 1;
+        continue;
+      }
+    }
+    if (j > 0) {
+      horz_score = align_matrix[i][j - 1] + gap_penalty;
+      if (align_matrix[i][j] == horz_score) {
+        align_seq1 = "-" + align_seq1;
+        align_seq2 = seq2[j - 1] + align_seq2;
+        j -= 1;
+        continue;
+      }
+    }
+    break;
   }
-  align_seq1 = seq1[0] + align_seq1;
-  align_seq2 = seq2[0] + align_seq2;
+  int start_i = i;
+  int start_j = j;
   int width = 100;
   for (int i = 0; i < static_cast<int>(align_seq1.length()); i += width) {
     string seq1_substr = align_seq1.substr(i, width);
@@ -118,6 +133,6 @@ int main(int argc, char* argv[]) {
     cout << "Human: " << seq2_substr << "\n\n";
   }
   cout << "\nMax Alignment Score: " << max_score << "\n";
-  cout << "Sequence starts at Coordinates (" << i << ", " << j <<") and ends at coordinates (" << end_i << ", " << end_j << ")\n";
-  cout << "The sequence is " << align_seq1.size() << " nucleotides long\n"; 
+  cout << "Sequence starts at Coordinates (" << start_i << ", " << start_j << ") and ends at coordinates (" << end_i << ", " << end_j << ")\n";
+  cout << "The sequence is " << align_seq1.size() << " nucleotides long\n";
 }
