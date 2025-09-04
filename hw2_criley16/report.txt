@@ -1,0 +1,34 @@
+2) Global Alignment Results:
+Alignment Score: -1016
+Number of matches:    1137/2848 (39.9228%)
+Number of gaps:       1579/2848 (55.4424%)
+Number of mismatches: 132/2848 (4.63483%)
+
+3) Local Alignment Results:
+Max Alignment Score: 820
+Sequence starts at Coordinates (190, 3) and ends at coordinates (1489, 1267)
+The sequence is 1360 nucleotides long
+Number of matches:    779/1360 (57.2794%)
+Number of gaps:       157/1360 (11.5441%)
+Number of mismatches: 424/1360 (31.1765%)
+
+The local Alignment sequence is about half as long as the global alignment sequence.
+The amount of gaps has decreased while the amount of matches and mismatches increase in frequency.
+With the scoring being +2 for matches, -1 for mismatches and -2 for gaps leads to the score being 
+-1016 in the global alignment, but with the significant decreases in gaps, the local score maxes out at 820.
+Biologically, this sequence may be a shared gene between the 2 species or can even show a common anscestory.
+
+4) End-Gap Free Alignment Results:
+Alignment Score: 620
+The sequence is 345 nucleotides long
+Number of matches:    322/345 (93.3333%)
+Number of gaps:       1/345 (0.289855%)
+Number of mismatches: 22/345 (6.37681%)
+
+5) Blastn Comparison
+Score = 284 bits (366),  Expect = 9e-80
+Identities = 294/405 (73%), Gaps = 0/405 (0%)
+The blastn sequence is significantly shorter than the local alignment I calculated
+This could be due to the scoring metrics of blastn, as it had a higher match rate and no gaps compared to mine.
+
+ 

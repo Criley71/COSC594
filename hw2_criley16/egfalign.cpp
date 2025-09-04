@@ -108,6 +108,9 @@ int main(int argc, char* argv[]) {
     break;
   }
   int width = 100;
+  double match_count = 0;
+  double gap_count = 0;
+  double mm_count = 0;
   // loop through 100 characters at a time, to show alignment beyween the 2 sequences
   for (int i = 0; i < static_cast<int>(align_seq1.length()); i += width) {
     string seq1_substr = align_seq1.substr(i, width);
@@ -118,10 +121,13 @@ int main(int argc, char* argv[]) {
       if (seq1_substr[j] == seq2_substr[j] && seq1_substr[j] != '-') {
         if (seq1_substr[j] == '\0') continue;
         match_string += "\033[32m|\033[0m";  // if match print green |
+        match_count += 1;
       } else if (seq1_substr[j] == '-' || seq2_substr[j] == '-') {
         match_string += "\033[33m-\033[0m";  // if gap match print yellow '-'
+        gap_count += 1;
       } else {
         match_string += "\033[31mX\033[0m";  // if mismatch print red X
+        mm_count += 1;
       }
     }
 
@@ -131,4 +137,8 @@ int main(int argc, char* argv[]) {
   }
   // score is in the bottom right of the matrix
   cout << "Alignment Score: " << max_score << "\n";
+  cout << "The sequence is " << align_seq1.size() << " nucleotides long\n";
+  cout << "Number of matches:    " << match_count << "/" << align_seq1.size()<< " (" << (float(match_count)/align_seq1.size()) *100 << "%)\n";
+  cout << "Number of gaps:       " << gap_count << "/" << align_seq1.size() << " (" << (float(gap_count)/align_seq1.size()) *100 << "%)\n";
+  cout << "Number of mismatches: " << mm_count << "/" << align_seq1.size() << " (" << (float(mm_count)/align_seq1.size()) *100 << "%)\n";
 }
