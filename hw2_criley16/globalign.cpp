@@ -161,6 +161,7 @@ int main(int argc, char* argv[]) {
     cout << "Human: " << seq2_substr << "\n\n";
   }
   // score is in the bottom right of the matrix
+  // print out statistics
   cout << "Alignment Score: " << align_matrix[size_seq1][size_seq2] << "\n";
   cout << "Number of matches:    " << match_count << "/" << align_seq1.size()<< " (" << ((match_count)/align_seq1.size()) *100 << "%)\n";
   cout << "Number of gaps:       " << gap_count << "/" << align_seq1.size() << " (" << ((gap_count)/align_seq1.size()) *100 << "%)\n";

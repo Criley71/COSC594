@@ -2,8 +2,8 @@ CXX = g++
 
 CXXFLAGS = -Wall -std=c++17 -g
 
-SRC = globalign.cpp localign.cpp egfalign.cpp
-EXE = globalign localign egfalign
+SRC = globalign.cpp localign.cpp egfalign.cpp ls_egfalign.cpp
+EXE = globalign localign egfalign ls_egfalign
 
 all: $(EXE)
 
@@ -14,6 +14,9 @@ localign: localign.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
 egfalign: egfalign.cpp
+	$(CXX) $(CXXFLAGS) -o $@ $<
+
+ls_egfalign: ls_egfalign.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
 clean:

@@ -1,14 +1,19 @@
-
+/*Connor Riley
+COSC 594 Fall 2025 HW2
+This implements a local alignment algorithm of 2 dna sequences
+*/
 #include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <vector>
-
 using namespace std;
+
 int main(int argc, char* argv[]) {
+  // if files are passed theyu are used, otherwise default to
+  // human and drosophila sequences
   string file1 = (argc == 3) ? argv[2] : "drosophila.fasta";
   string file2 = (argc == 3) ? argv[1] : "human.fasta";
-
+  // open and error check files
   ifstream fin1;
   fin1.open(file1);
   if (!fin1.good()) {
@@ -23,6 +28,7 @@ int main(int argc, char* argv[]) {
     perror("");
     return -1;
   }
+  // read line by line, skipping the header
   string seq1 = "";
   string seq2 = "";
   string line;
@@ -44,6 +50,8 @@ int main(int argc, char* argv[]) {
   }
   fin1.close();
   fin2.close();
+  //make a 2d vector where the first rown and column are initiated as 0.
+
   int size_seq1 = seq1.size();
   int size_seq2 = seq2.size();
   vector<vector<int>> align_matrix;
@@ -52,13 +60,13 @@ int main(int argc, char* argv[]) {
     align_matrix[i].resize(size_seq2 + 1, 0);
   }
   // scoring system
-  // initialize first column and row to index * gap_penalty
   int match = 2;
   int mismatch_penalty = -1;
   int gap_penalty = -2;
   int diag_score;
   int horz_score;
   int vert_score;
+  //keep the max value coordinates for traceback
   pair<int, int> max_coord = pair<int, int>(0, 0);
   for (int i = 1; i <= size_seq1; i++) {
     for (int j = 1; j <= size_seq2; j++) {
@@ -71,6 +79,7 @@ int main(int argc, char* argv[]) {
       }
     }
   }
+
   int max_score = align_matrix[max_coord.first][max_coord.second];
   string align_seq1 = "";
   string align_seq2 = "";
@@ -78,6 +87,8 @@ int main(int argc, char* argv[]) {
   int j = max_coord.second;
   int end_i = i;
   int end_j = j;
+  //starting at the max values coordinates we work our way back by checking
+  //if the diag + match or mismatch = or up/left + gap equals current value
   while (align_matrix[i][j] != 0) {
     if (i > 0 && j > 0) {
       diag_score = align_matrix[i - 1][j - 1] + (seq1[i - 1] == seq2[j - 1] ? match : mismatch_penalty);
@@ -115,6 +126,7 @@ int main(int argc, char* argv[]) {
   int gap_count = 0;
   int match_count = 0;
   int mm_count = 0;
+  //output the aligned sequences and statistics
   for (int i = 0; i < static_cast<int>(align_seq1.length()); i += width) {
     string seq1_substr = align_seq1.substr(i, width);
     string seq2_substr = align_seq2.substr(i, width);

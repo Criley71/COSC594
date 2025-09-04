@@ -4,7 +4,7 @@
 #include <vector>
 using namespace std;
 int main(int argc, char* argv[]) {
-  // if files are passed theyu are used, otherwise default to
+  // if files are passed they are used, otherwise default to
   // human and drosophila sequences
   string file1 = (argc == 3) ? argv[1] : "neander_sample.fasta";
   string file2 = (argc == 3) ? argv[2] : "human_mito.fasta";
