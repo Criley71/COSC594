@@ -1,3 +1,7 @@
+/*Connor Riley
+COSC 594 HW2
+linear space end gap free alignment algorithm 
+*/
 #include <algorithm>
 #include <fstream>
 #include <iostream>
@@ -45,10 +49,11 @@ int main(int argc, char* argv[]) {
 
   int size_seq1 = seq1.size();
   int size_seq2 = seq2.size();
+  //only need the previous and current row. intialize them all to 0
   vector<int> prev(size_seq1+1, 0);
   vector<int> current(size_seq1+1, 0);
   
-
+  //scoring system
   int match = 2;
   int mismatch_penalty = -1;
   int gap_penalty = -2;
@@ -56,6 +61,7 @@ int main(int argc, char* argv[]) {
   int horz_score;
   int vert_score;
   int max_score = 0;
+  //loop through row calculating score based on the previous and current rows
   for (int i = 1; i <= size_seq2; i++) {
     for (int j = 1; j <= size_seq1; j++) {
       int diag = prev[j - 1];
@@ -71,6 +77,7 @@ int main(int argc, char* argv[]) {
         //cout << max_score << "\n";
       }
     }
+    //swap the vectors and clear the current one
     swap(prev, current);
     fill(current.begin(), current.end(), 0);
 

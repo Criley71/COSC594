@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
   }
   fin1.close();
   fin2.close();
-
+  // make MxN matrix, initialize first row and column to zero
   int size_seq1 = seq1.size();
   int size_seq2 = seq2.size();
   vector<vector<int>> align_matrix;
@@ -57,6 +57,7 @@ int main(int argc, char* argv[]) {
   int diag_score;
   int horz_score;
   int vert_score;
+  // check for the max value in final row or column and save coordinates
   pair<int, int> max_coord = pair<int, int>(0, 0);
   for (int i = 1; i <= size_seq1; i++) {
     for (int j = 1; j <= size_seq2; j++) {
@@ -64,7 +65,7 @@ int main(int argc, char* argv[]) {
       horz_score = align_matrix[i][j - 1] + gap_penalty;
       vert_score = align_matrix[i - 1][j] + gap_penalty;
       align_matrix[i][j] = max({diag_score, horz_score, vert_score, 0});
-      if (align_matrix[i][j] > align_matrix[max_coord.first][max_coord.second] && (i == size_seq1|| j == size_seq2)) {
+      if (align_matrix[i][j] > align_matrix[max_coord.first][max_coord.second] && (i == size_seq1 || j == size_seq2)) {
         // cout << "New Max "<< align_matrix[i][j] <<" at  (" << i << ", " << j << ")\n";
         max_coord = pair<int, int>(i, j);
       }
@@ -75,7 +76,7 @@ int main(int argc, char* argv[]) {
   string align_seq2 = "";
   int i = max_coord.first;
   int j = max_coord.second;
-
+  // work our way back from max coordinates until we reach top left
   while (i > 0 || j > 0) {
     if (i > 0 && j > 0) {
       diag_score = align_matrix[i - 1][j - 1] + (seq1[i - 1] == seq2[j - 1] ? match : mismatch_penalty);
@@ -135,10 +136,10 @@ int main(int argc, char* argv[]) {
     cout << "MATCH:       " << match_string << "\n";
     cout << "Human Mito:  " << seq2_substr << "\n\n";
   }
-  // score is in the bottom right of the matrix
+  // print stats
   cout << "Alignment Score: " << max_score << "\n";
   cout << "The sequence is " << align_seq1.size() << " nucleotides long\n";
-  cout << "Number of matches:    " << match_count << "/" << align_seq1.size()<< " (" << (float(match_count)/align_seq1.size()) *100 << "%)\n";
-  cout << "Number of gaps:       " << gap_count << "/" << align_seq1.size() << " (" << (float(gap_count)/align_seq1.size()) *100 << "%)\n";
-  cout << "Number of mismatches: " << mm_count << "/" << align_seq1.size() << " (" << (float(mm_count)/align_seq1.size()) *100 << "%)\n";
+  cout << "Number of matches:    " << match_count << "/" << align_seq1.size() << " (" << (float(match_count) / align_seq1.size()) * 100 << "%)\n";
+  cout << "Number of gaps:       " << gap_count << "/" << align_seq1.size() << " (" << (float(gap_count) / align_seq1.size()) * 100 << "%)\n";
+  cout << "Number of mismatches: " << mm_count << "/" << align_seq1.size() << " (" << (float(mm_count) / align_seq1.size()) * 100 << "%)\n";
 }

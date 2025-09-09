@@ -89,6 +89,7 @@ int main(int argc, char* argv[]) {
   int end_j = j;
   //starting at the max values coordinates we work our way back by checking
   //if the diag + match or mismatch = or up/left + gap equals current value
+  // work our way back until we hit 0;
   while (align_matrix[i][j] != 0) {
     if (i > 0 && j > 0) {
       diag_score = align_matrix[i - 1][j - 1] + (seq1[i - 1] == seq2[j - 1] ? match : mismatch_penalty);
