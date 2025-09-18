@@ -2,8 +2,8 @@ CXX = g++
 
 CXXFLAGS = -Wall -std=c++17 -g
 
-SRC = casino_simulator.cpp forward.cpp
-EXE = casino_simulator forward
+SRC = casino_simulator.cpp forward.cpp viterbi.cpp
+EXE = casino_simulator forward viterbi
 
 all: $(EXE)
 
