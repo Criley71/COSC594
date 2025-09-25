@@ -28,6 +28,6 @@ Connor Riley HW3
   will output into viterbi.1.txt and viterbi.2.txt
 
 5. GLIMMER Gene Prediction (8 pts total)
-  found in the .predict and .detail files
-  the ames_lab predicted 1559 genes
-  the ames_ancestor predicted 4119 genes 
+  found in the .predict files
+  the ames_lab predicted 5575 genes (subtracted 1 bc of header)
+  the ames_ancestor predicted 5568 genes(subtracted 1 bc of header)
