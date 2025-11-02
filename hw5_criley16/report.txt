@@ -1,0 +1,4 @@
+For Hamming Distance compile using make or:
+  > g++ -Wall -g    hamming_distance.cpp   -o hamming_distance
+Run by either using make run or:
+  > ./hamming_distance
