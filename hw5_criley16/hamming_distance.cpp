@@ -1,3 +1,7 @@
+/*
+Connor Riley
+criley16@vols.utk.edu
+*/
 #include <fstream>
 #include <iomanip>
 #include <iostream>
